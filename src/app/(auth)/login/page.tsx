@@ -20,7 +20,7 @@ const page = () => {
                 <div className='space-y-5'>
                     <LoginForm/>
                     <Link href={"/signup"} className='block text-center hover:underline'>
-                        Don&apos;t have an account<span className='text-primary'> Sign up here</span>
+                        Don&apos;t have an account?<span className='text-primary'> Sign up here</span>
                     </Link>
                 </div>
             </div>
