@@ -20,4 +20,9 @@ export type PostData = Prisma.PostGetPayload<{
 export interface PostsPage {
     posts: PostData[];
     nextCursor: string | null;
-  }
+}
+
+export interface FollowerInfo {
+    followers: number;
+    isFollowedByUser: boolean;
+}
