@@ -4,7 +4,6 @@ import MenuBar from "./MenuBar";
 import Navbar from "./Navbar";
 import SessionProvider from "./SessionProvider";
 import ContactBar from "./ContactBar";
-
 export default async function Layout({
   children,
 }: {
