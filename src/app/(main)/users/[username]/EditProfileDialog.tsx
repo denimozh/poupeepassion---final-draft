@@ -13,6 +13,8 @@ import Image, { StaticImageData } from 'next/image';
 import { Label } from '@/components/ui/label';
 import AvatarPlaceholder from "@/assets/avatar-placeholder.png"
 import { Camera } from 'lucide-react';
+import CropImageDialog from '@/components/CropImageDialog';
+import Resizer from "react-image-file-resizer"
 
 interface EditProfileDialogProps {
     user: UserData;
@@ -34,12 +36,15 @@ const EditProfileDialog = ({ user, open, onOpenChange }: EditProfileDialogProps)
     const [croppedAvatar, setCroppedAvatar] = useState<Blob | null>(null);
 
     async function onSubmit(values: UpdateUserProfileValues){
+        const newAvatarFile = croppedAvatar ? new File([croppedAvatar], `avatar_${user.id}.webp`) : undefined
         mutation.mutate(
             {
                 values,
+                avatar: newAvatarFile
             },
             {
                 onSuccess: () => {
+                    setCroppedAvatar(null);
                     onOpenChange(false);
                 }
             }
@@ -107,7 +112,16 @@ function AvatarInput({src, onImageCropped}: AvatarInputProps){
     function onImageSelected(image: File | undefined) {
         if (!image) return;
 
-
+        Resizer.imageFileResizer(
+            image,
+            1024,
+            1204,
+            "WEBP",
+            100,
+            0,
+            (uri) => setImageToCrop(uri as File),
+            "file"
+        )
     }
 
     return(
@@ -119,6 +133,14 @@ function AvatarInput({src, onImageCropped}: AvatarInputProps){
                     <Camera size={24} />
                 </span>
             </button>
+            {imageToCrop && (
+                <CropImageDialog src={URL.createObjectURL(imageToCrop)} cropAspectRatio={1} onCropped={onImageCropped} onClose={() => {
+                    setImageToCrop(undefined)
+                    if (fileInputRef.current){
+                        fileInputRef.current.value = "";
+                    }
+                }} />
+            )}
         </>
     )
 }
