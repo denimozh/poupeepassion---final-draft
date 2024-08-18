@@ -1,3 +1,5 @@
+"use client"
+
 import { useSession } from "@/app/(main)/SessionProvider";
 import { FollowerInfo, UserData } from "@/lib/types";
 import { PropsWithChildren } from "react";
