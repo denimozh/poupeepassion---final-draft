@@ -69,6 +69,8 @@ export async function POST(req: Request, { params: { postId }} : {params: {postI
 
             }
         })
+
+        return new Response();
     } catch (error) {
         console.error(error);
         return Response.json({ error: "Internal Server Error" }, { status: 500 });
@@ -76,5 +78,23 @@ export async function POST(req: Request, { params: { postId }} : {params: {postI
 }
 
 export async function DELETE(req: Request, { params: { postId }} : {params: {postId: string}}) {
-    
+    try {
+        const { user: loggedInUser } = await validateRequest();
+
+        if (!loggedInUser){
+            return Response.json({ error: "Unauthorized" }, { status: 404 })
+        }
+
+        await prisma.like.deleteMany({
+            where: {
+                userId: loggedInUser.id,
+                postId
+            }
+        })
+
+        return new Response();
+    } catch (error) {
+        console.error(error);
+        return Response.json({ error: "Internal Server Error" }, { status: 500 });
+    }
 }
