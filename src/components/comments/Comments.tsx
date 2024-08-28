@@ -34,7 +34,7 @@ const Comments = ({ post }: CommentsProps) => {
     <div className='space-y-3'>
       <CommentInput post={post} />
       {hasNextPage && (
-        <Button variant="link" className='mx-auto block' disabled onClick={() => fetchNextPage()}>
+        <Button variant="link" className='mx-auto block' disabled={isFetching} onClick={() => fetchNextPage()}>
           Load Previous Comments
         </Button>
       )}
