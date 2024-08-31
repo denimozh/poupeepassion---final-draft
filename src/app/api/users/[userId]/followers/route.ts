@@ -51,23 +51,32 @@ export async function POST(req: Request, { params: {userId}} : {params: {userId:
 
         if (!loggedInUser){
             return Response.json({ error: "Unauthorized" }, { status: 401 });
-        }
+        };
 
-        await prisma.follow.upsert({
-            where: {
-                followerId_followingId: {
+        await prisma.$transaction([
+            prisma.follow.upsert({
+                where: {
+                    followerId_followingId: {
+                        followerId: loggedInUser.id,
+                        followingId: userId
+                    }
+                },
+                create: {
                     followerId: loggedInUser.id,
                     followingId: userId
+                },
+                update: {
+    
                 }
-            },
-            create: {
-                followerId: loggedInUser.id,
-                followingId: userId
-            },
-            update: {
-
-            }
-        });
+            }),
+            prisma.notification.create({
+                data: {
+                    issuerId: loggedInUser.id,
+                    recipentId: userId,
+                    type: "FOLLOW"
+                }
+            })
+        ])
 
         return new Response();
     } catch (error) {
@@ -84,12 +93,21 @@ export async function DELETE(req: Request, { params: {userId}} : {params: {userI
             return Response.json({ error: "Unauthorized" }, { status: 401 });
         }
 
-        await prisma.follow.deleteMany({
-            where:{
-                followerId: loggedInUser.id,
-                followingId: userId
-            }
-        });
+        await prisma.$transaction([
+            prisma.follow.deleteMany({
+                where:{
+                    followerId: loggedInUser.id,
+                    followingId: userId
+                }
+            }),
+            prisma.notification.deleteMany({
+                where: {
+                    issuerId: loggedInUser.id,
+                    recipentId: userId,
+                    type: "FOLLOW"
+                }
+            })
+        ])
 
         return new Response();
     } catch (error) {
