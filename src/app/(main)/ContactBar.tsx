@@ -21,8 +21,8 @@ const ContactBar = ({ className }: ContactBarProps) => {
         asChild
       >
         <Link href="/">
-            <UserAvatar avatarUrl={user.avatarUrl} size={50} />
-            <span className="hidden lg:inline">username</span>
+          <UserAvatar avatarUrl={user.avatarUrl} size={50} />
+          <span className="hidden lg:inline">username</span>
         </Link>
       </Button>
       <Button
@@ -32,8 +32,8 @@ const ContactBar = ({ className }: ContactBarProps) => {
         asChild
       >
         <Link href="/">
-            <UserAvatar avatarUrl={user.avatarUrl} size={50} />
-            <span className="hidden lg:inline">username</span>
+          <UserAvatar avatarUrl={user.avatarUrl} size={50} />
+          <span className="hidden lg:inline">username</span>
         </Link>
       </Button>
       <Button
@@ -43,8 +43,8 @@ const ContactBar = ({ className }: ContactBarProps) => {
         asChild
       >
         <Link href="/">
-            <UserAvatar avatarUrl={user.avatarUrl} size={50} />
-            <span className="hidden lg:inline">username</span>
+          <UserAvatar avatarUrl={user.avatarUrl} size={50} />
+          <span className="hidden lg:inline">username</span>
         </Link>
       </Button>
     </div>
