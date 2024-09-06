@@ -7,7 +7,7 @@ const ChatSidebar = () => {
 
     return (
         <div className='size-full flex flex-col border-e md:w-72'>
-            <ChannelList />
+            <ChannelList filters={{ type: "messaging", members: { $in: [user.id]} }} showChannelSearch />
         </div>
     )
 }
