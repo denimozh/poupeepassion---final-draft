@@ -5,9 +5,12 @@ import useInitializeChatClient from "./useInitializeChatClient"
 import { Chat as StreamChat} from "stream-chat-react"
 import ChatSidebar from "./ChatSidebar";
 import ChatChannel from "./ChatChannel";
+import { useTheme } from "next-themes";
 
 export default function Chat() {
     const chatClient = useInitializeChatClient();
+
+    const { resolvedTheme } = useTheme();
 
     if (!chatClient) {
         return <Loader2 className="mx-auto my-3 animate-spin"/>
@@ -16,7 +19,7 @@ export default function Chat() {
     return (
         <main className="relative w-full overflow-hidden rounded-2xl bg-card shadow-sm">
             <div className="absolute bottom-0 top-0 flex w-full">
-                <StreamChat client={chatClient}>
+                <StreamChat client={chatClient} theme={resolvedTheme === "dark" ? "str-chat__theme-dark" : "str-chat__theme-light"}>
                     <ChatSidebar />
                     <ChatChannel />
                 </StreamChat>
